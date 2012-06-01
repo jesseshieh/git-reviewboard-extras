@@ -1,0 +1,50 @@
+#!/bin/bash
+set -e
+
+function config_exists {
+  value=$(git config --get $1)
+  if [ $? == 0 ]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
+function get_config {
+  git config --get $1
+}
+
+function current_branch {
+  br=`git branch | grep "*"`
+  echo ${br/* /}
+}
+
+config_exists=$(config_exists reviewboard.url)
+if [ "$config_exists" = "false" ]; then
+  echo "We need to do a little setup first"
+  read -p "What is the full reviewboard url e.g. https://reviewboard.mycompany.com? " url
+  git config reviewboard.url $url
+fi
+
+current_branch=$(current_branch)
+if [ "$current_branch" = "master" ]; then
+  echo "Not a good idea to use this on master"
+  exit 1
+fi
+
+config_exists=$(config_exists reviewboardids.$current_branch)
+
+if [ "$config_exists" = "true" ]; then
+  review_id=$(get_config reviewboardids.$current_branch)
+  post-review --parent master -g -d -o -r $review_id
+else
+  log=$(post-review --parent master -g -o -d)
+  echo "$log"
+  review_line=$(echo "$log" | tail -3 | head -1)
+  review_line=${review_line/Review request #/}
+  review_line=${review_line/ posted./}
+  review_id=$review_line
+  git config reviewboardids.$current_branch $review_id
+fi
+
+echo "Done. Success."
