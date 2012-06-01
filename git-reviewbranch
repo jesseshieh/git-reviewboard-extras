@@ -32,8 +32,17 @@ if [ "$current_branch" = "master" ]; then
   exit 1
 fi
 
-config_exists=$(config_exists reviewboardids.$current_branch)
+if [ ! -f $HOME/.post-review-cookies.txt ]; then
+  echo "You don't have a ~/.post-review-cookies.txt file."
+  echo "You should run post-review manually once and type in your"
+  echo "username and password at the prompt to set your reviewboard cookie."
+  echo "This is on my todo list to handle more gracefully =)"
+  echo "Run this command:"
+  echo "post-review"
+  exit 1
+fi
 
+config_exists=$(config_exists reviewboardids.$current_branch)
 if [ "$config_exists" = "true" ]; then
   review_id=$(get_config reviewboardids.$current_branch)
   post-review --parent master -g -d -o -r $review_id
