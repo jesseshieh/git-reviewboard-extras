@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "Hey Hey! Thanks for using reviewboard!  If you run into any issues, email js@squareup.com"
+
 function config_exists {
   value=$(git config --get $1)
   if [ $? == 0 ]; then
