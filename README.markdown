@@ -1,5 +1,11 @@
 # Git Reviewboard Extras
-Extra commands for using git with reviewboard
+Extra commands for using git with reviewboard.
+This was tested on
+- Mac OS X 10.7.3
+- Reviewboard 1.6.6
+- RBTools 0.4.1
+- Git 1.7.10
+- Bash 3.2.48(1)-release (x86_64-apple-darwin11)
 
 ## Installation
 
@@ -17,7 +23,9 @@ Extra commands for using git with reviewboard
 ### `$ git reviewbranch`
 Posts a new review to reviewboard for this branch compared to master.  
 If you've previously posted a review for this branch already, then this updates 
-that review.  
+that review.
+
+
 
 
 
