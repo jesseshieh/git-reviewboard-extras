@@ -47,6 +47,7 @@ fi
 config_exists=$(config_exists reviewboardids.$current_branch)
 if [ "$config_exists" = "true" ]; then
   review_id=$(get_config reviewboardids.$current_branch)
+  echo "Using existing review found for this branch: $review_id"
   post-review --parent master -d -o -r $review_id
 else
   log=$(post-review --parent master -g -o -d)
