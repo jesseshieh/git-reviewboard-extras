@@ -20,7 +20,7 @@ This was tested on
 ```
 
 ## Usage
-### `$ git reviewbranch`
+### `$ git post-review`
 Posts a new review to reviewboard for this branch compared to master.  
 If you've previously posted a review for this branch already, then this updates 
 that review.
